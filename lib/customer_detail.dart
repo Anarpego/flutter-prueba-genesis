@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_genesis/customer.dart';
 
 class CustomerDetailPage extends StatefulWidget {
@@ -22,11 +23,19 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
   }
 
   Future<List<Customer>> readCustomerData() async {
-    final String response = await rootBundle.loadString('assets/data/customers.json');
+    final String response =
+        await rootBundle.loadString('assets/data/customers.json');
     final data = await json.decode(response) as Map<String, dynamic>;
     final List<dynamic> tableData = data['tablav'];
     return tableData.map((item) => Customer.fromJson(item)).toList();
   }
+
+  final List<String> imagePaths = [
+    'assets/images/antigua.jpg',
+    'assets/images/castillo.jpg',
+    'assets/images/semuc.jpeg',
+    'assets/images/tikal.JPG',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +72,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                         });
 
                         return AlertDialog(
-                          title: Text('More Information'),
+                          title: Text('Más información'),
                           content: SingleChildScrollView(
                             child: ListBody(
                               children: infoList,
@@ -84,6 +93,17 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                 );
               },
             ),
+      bottomNavigationBar: imagePaths.isNotEmpty
+          ? CarouselSlider(
+              options: CarouselOptions(
+                height: 200,
+                enableInfiniteScroll: true,
+              ),
+              items: imagePaths.map((path) {
+                return Image.asset(path);
+              }).toList(),
+            )
+          : SizedBox(),
     );
   }
 }
