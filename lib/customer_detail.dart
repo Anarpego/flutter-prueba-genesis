@@ -46,62 +46,87 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
         foregroundColor: Colors.white,
       ),
       body: customers == null
-          ? CircularProgressIndicator()
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
           : ListView.builder(
               itemCount: customers!.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(customers![index].nombreCliente ?? ''),
-                  subtitle: Text(
-                      'Prestamo: ${customers![index].prestamo ?? ''}, DPI: ${customers![index].dpi ?? ''}, FUD: ${customers![index].fudCliente ?? ''}'),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        final customerData = customers![index].toMap();
-                        final infoList = <Widget>[];
+                return Card(
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    title: Text(
+                      customers![index].nombreCliente ?? '',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Prestamo: ${customers![index].prestamo ?? ''}, DPI: ${customers![index].dpi ?? ''}, FUD: ${customers![index].fudCliente ?? ''}',
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          final customerData = customers![index].toMap();
+                          final infoList = <Widget>[];
 
-                        customerData.forEach((key, value) {
-                          if (value != null) {
-                            if (key == 'codSucursal' && value is int) {
-                              infoList.add(Text('$key: ${value.toString()}'));
-                            } else {
-                              infoList.add(Text('$key: $value'));
+                          customerData.forEach((key, value) {
+                            if (value != null) {
+                              if (key == 'codSucursal' && value is int) {
+                                infoList.add(Text('$key: ${value.toString()}'));
+                              } else {
+                                infoList.add(Text('$key: $value'));
+                              }
                             }
-                          }
-                        });
+                          });
 
-                        return AlertDialog(
-                          title: Text('Más información'),
-                          content: SingleChildScrollView(
-                            child: ListBody(
-                              children: infoList,
+                          return AlertDialog(
+                            title: Text('Más información'),
+                            content: SingleChildScrollView(
+                              child: ListBody(
+                                children: infoList,
+                              ),
                             ),
-                          ),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text('Close'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('Cerrar'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
                 );
               },
             ),
       bottomNavigationBar: imagePaths.isNotEmpty
-          ? CarouselSlider(
-              options: CarouselOptions(
-                height: 200,
-                enableInfiniteScroll: true,
+          ? Container(
+              color: Colors.grey[200],
+              padding: EdgeInsets.all(16),
+              child: CarouselSlider(
+                options: CarouselOptions(
+                  height: 200,
+                  enableInfiniteScroll: true,
+                ),
+                items: imagePaths.map((path) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset(
+                      path,
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                }).toList(),
               ),
-              items: imagePaths.map((path) {
-                return Image.asset(path);
-              }).toList(),
             )
           : SizedBox(),
     );
