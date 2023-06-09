@@ -40,8 +40,12 @@ class LoginPage extends StatelessWidget {
           onPressed: () => _handleSignInAndNavigate(context),
           backgroundColor: Colors.red,
           foregroundColor: Colors.white,
-          icon: Icon(Icons.security),
-          label: Text('Sign in with Google'),
+          icon: Image.asset(
+            'assets/icons/google_float_icon.png',
+            height: 32,
+            width: 32,
+          ),
+          label: Text('LogIn with Google'),
         ),
       ),
     );

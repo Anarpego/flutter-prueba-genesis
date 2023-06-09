@@ -76,7 +76,8 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                               });
 
                               return AlertDialog(
-                                title: Text('Más información'),
+                                title: Text(
+                                    'Más información - ${customers![index].nombreCliente ?? ''}'),
                                 content: SingleChildScrollView(
                                   child: ListBody(
                                     children: infoList,
@@ -104,12 +105,9 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
                   child: Swiper(
                     itemCount: imagePaths.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return AspectRatio(
-                        aspectRatio: 16 / 9, 
-                        child: Image.asset(
-                          imagePaths[index],
-                          fit: BoxFit.contain,
-                        ),
+                      return Image.asset(
+                        imagePaths[index],
+                        fit: BoxFit.contain,
                       );
                     },
                     pagination: SwiperPagination(),
