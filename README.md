@@ -14,7 +14,7 @@ cd cd flutter-prueba-genesis
 
 ### NOTA ADICIONAL:
 
-> Al ser datos de los clientes el .json de assets/data/ no esta en el repositorio por favor crear el json con nombre "customers.json" para que funcione la aplicación.
+> Al ser datos de los clientes el .json de assets/data/ no esta en el repositorio por favor crear el directorio data en assets y el json con nombre "customers.json" para que funcione la aplicación.
 
 ### Instalación de las dependencias
 
