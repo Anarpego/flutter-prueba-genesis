@@ -11,6 +11,7 @@ class CustomerDetailPage extends StatefulWidget {
 
 class _CustomerDetailPageState extends State<CustomerDetailPage> {
   List<Customer>? customers;
+  List<String> imagePaths = [];
 
   @override
   void initState() {
@@ -18,6 +19,12 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
     readCustomerData().then((data) {
       setState(() {
         customers = data;
+      });
+    });
+
+    loadImages().then((data) {
+      setState(() {
+        imagePaths = data;
       });
     });
   }
@@ -30,12 +37,12 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
     return tableData.map((item) => Customer.fromJson(item)).toList();
   }
 
-  final List<String> imagePaths = [
-    'assets/images/antigua.jpg',
-    'assets/images/castillo.jpg',
-    'assets/images/semuc.jpeg',
-    'assets/images/tikal.JPG',
-  ];
+  Future<List<String>> loadImages() async {
+    final String manifestContent =
+        await DefaultAssetBundle.of(context).loadString('assets/assets_manifest.json');
+    final Map<String, dynamic> manifestMap = json.decode(manifestContent);
+    return List<String>.from(manifestMap["images"]);
+  }
 
   @override
   Widget build(BuildContext context) {
